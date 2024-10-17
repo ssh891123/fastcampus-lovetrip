@@ -8,7 +8,9 @@
       "@shared/*": ["src/components/shared/*"],
       "@pages/*": ["src/pages/*"],
       "@remote/*": ["src/remote/*"],
-      "@constants": ["src/constants/index"]
+      "@constants": ["src/constants/index"],
+      "@models/*": ["src/models/*"],
+      "@utils/*": ["src/utils/*"]
     }
   }
 }
