@@ -8,6 +8,7 @@ import {
 } from 'firebase/firestore'
 import { store } from './firebase'
 import { COLLECTIONS } from '@constants'
+import { Hotel } from '@models/hotel'
 
 // pageParam: 지금 보이는 맨 마지막 요소
 export async function getHotels(pageParams?: QuerySnapshot<unknown>) {
@@ -23,10 +24,13 @@ export async function getHotels(pageParams?: QuerySnapshot<unknown>) {
 
   const hotelsSnapshot = await getDocs(hotelQuery)
 
-  const items = hotelsSnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }))
+  const items = hotelsSnapshot.docs.map(
+    (doc) =>
+      ({
+        id: doc.id,
+        ...doc.data(),
+      }) as Hotel,
+  )
 
   const lastVisible = hotelsSnapshot.docs[hotelsSnapshot.docs.length - 1]
 
