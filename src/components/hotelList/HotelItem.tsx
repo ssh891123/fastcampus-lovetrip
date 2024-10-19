@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { css } from '@emotion/react'
 import { differenceInMilliseconds, parseISO } from 'date-fns'
-import { Hotel as IHotel } from '@models/hotel'
+import { Hotel } from '@models/hotel'
 import Flex from '@shared/Flex'
 import ListRow from '@shared/ListRow'
 import Tag from '@shared/Tag'
@@ -13,7 +13,7 @@ import addDelimeter from '@utils/addDelimeter'
 import formatTime from '@utils/formatTime'
 
 // interface임을 명시하기 위해 I라는 prefix붙임
-function Hotel({ hotel }: { hotel: IHotel }) {
+function HotelItem({ hotel }: { hotel: Hotel }) {
   const [remainedTime, setRemainedTime] = useState(0)
 
   useEffect(() => {
@@ -110,4 +110,4 @@ const imageStyle = css`
   margin-left: 16px;
 `
 
-export default Hotel
+export default HotelItem
