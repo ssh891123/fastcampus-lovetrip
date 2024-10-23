@@ -13,7 +13,6 @@ import addDelimeter from '@utils/addDelimeter'
 
 function Rooms({ hotelId }: { hotelId: string }) {
   const { data } = useRooms(hotelId)
-  console.log('Rooms', data)
 
   return (
     <Container>
