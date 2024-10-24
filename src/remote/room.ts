@@ -8,7 +8,7 @@ export async function getRooms(hotelId: string) {
   const snapshot = await getDocs(
     collection(doc(store, COLLECTIONS.HOTEL, hotelId), COLLECTIONS.ROOM),
   )
-  console.log(snapshot)
+
   return snapshot.docs.map((doc) => ({
     id: doc.id,
     ...(doc.data() as Room),
