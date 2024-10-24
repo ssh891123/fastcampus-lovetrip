@@ -7,6 +7,8 @@ import {
   startAfter,
   doc,
   getDoc,
+  where,
+  documentId,
 } from 'firebase/firestore'
 import { store } from './firebase'
 import { COLLECTIONS } from '@constants'
@@ -49,4 +51,21 @@ export async function getHotel(id: string) {
     id,
     ...snapshot.data(),
   } as Hotel
+}
+
+export async function getRecommendHotels(hotelIds: string[]) {
+  const recommendQuery = query(
+    collection(store, COLLECTIONS.HOTEL), //전제 문서 중에
+    where(documentId(), 'in', hotelIds), //documentID가 hotelsID에 포함된 hotel만 가지고 옴
+  )
+
+  const snapshot = await getDocs(recommendQuery)
+
+  return snapshot.docs.map(
+    (doc) =>
+      ({
+        id: doc.id,
+        ...doc.data(),
+      }) as Hotel,
+  )
 }
