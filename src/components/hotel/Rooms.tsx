@@ -71,7 +71,7 @@ function Rooms({ hotelId }: { hotelId: string }) {
 }
 
 const Container = styled.div`
-  margin: '40px 0';
+  margin: 40px 0;
 `
 
 const Header = styled(Flex)`
