@@ -6,21 +6,30 @@ import Flex from '@shared/Flex'
 import Button from '@shared/Button'
 // import MyImage from '@shared/MyImage'
 import { colors } from '@styles/colorPalette'
+import useUser from '@hooks/auth/useUser'
 
 function Navbar() {
   const location = useLocation()
   const showSignButton =
     ['/signin', '/signup'].includes(location.pathname) === false
-  // @TODO
-  const user = null
 
+  const user = useUser()
+  console.log(user)
   const renderButton = useCallback(() => {
     if (user != null) {
       //TODO 클릭시 user 정보 페이지로 이동 기능 추가
       return (
         <Link to="/my">
-          {/* @TODO */}
-          <img src="" alt="" />
+          <img
+            src={
+              // user.photoUrl ??
+              'https://cdn1.iconfinder.com/data/icons/cute-emoji-smiles-with-gradient/83/Emoji_Emoticon_Happy_Laugh_Smile-512.png'
+            }
+            alt="유저의 이미지"
+            width={40}
+            height={40}
+            style={{ borderRadius: '100%' }}
+          />
         </Link>
       )
     }
@@ -38,7 +47,7 @@ function Navbar() {
 
   return (
     <Flex justify="space-between" align="center" css={navbarContainer}>
-      <Link to="/">홈</Link>
+      <Link to="/">Love Trip</Link>
       {renderButton()}
     </Flex>
   )

@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { auth, store } from '@remote/firebase'
-import { collection, doc, setDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, setDoc } from 'firebase/firestore'
 import { COLLECTIONS } from '@constants'
 import { FirebaseError } from 'firebase/app'
 
@@ -16,19 +16,28 @@ function useGoogleSignin() {
     try {
       const { user } = await signInWithPopup(auth, provider)
 
-      const 새로운유저 = {
-        uid: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-        photoUrl: user.photoURL,
-      }
-
-      await setDoc(
+      const userSnapshot = await getDoc(
         doc(collection(store, COLLECTIONS.USER), user.uid),
-        새로운유저,
       )
 
-      navigate('/')
+      // 이미 가입한 유저
+      if (userSnapshot.exists()) {
+        navigate('/')
+      } else {
+        const 새로운유저 = {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoUrl: user.photoURL,
+        }
+
+        await setDoc(
+          doc(collection(store, COLLECTIONS.USER), user.uid),
+          새로운유저,
+        )
+
+        navigate('/')
+      }
     } catch (error) {
       if (error instanceof FirebaseError) {
         if (error.code === 'auth/popup-closed-by-user') {
