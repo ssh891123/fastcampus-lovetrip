@@ -14,7 +14,7 @@ function Navbar() {
     ['/signin', '/signup'].includes(location.pathname) === false
 
   const user = useUser()
-  console.log(user)
+
   const renderButton = useCallback(() => {
     if (user != null) {
       //TODO 클릭시 user 정보 페이지로 이동 기능 추가

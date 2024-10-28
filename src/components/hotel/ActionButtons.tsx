@@ -6,19 +6,35 @@ import Text from '@shared/Text'
 import Spacing from '@shared/Spacing'
 
 import useShare from '@hooks/useShare'
+import useLike from '@hooks/like/useLike'
 import { Hotel } from '@models/hotel'
 
 function ActionButtons({ hotel }: { hotel: Hotel }) {
   const share = useShare()
-  const { name, comment, mainImageUrl } = hotel
+  const { name, comment, mainImageUrl, id } = hotel
+  const { data: likes, mutate: handleLike } = useLike()
+
+  // list와 가진 data가 맞지 않아서 list를 가져오는 방식으로 사용했지만,
+  // data만 많아지는 경우 단일 data를 select 해오는 방식으로도 최적화 가능
+  const isLike = Boolean(likes?.find((like) => like.hotelId === hotel.id))
 
   return (
     <Flex css={ContainerStyles}>
       <Button
         label="찜하기"
-        iconUrl="https://cdn4.iconfinder.com/data/icons/twitter-29/512/166_Heart_Love_Like_Twitter-512.png"
+        iconUrl={
+          isLike
+            ? 'https://cdn4.iconfinder.com/data/icons/twitter-29/512/166_Heart_Love_Like_Twitter-512.png'
+            : 'https://cdn1.iconfinder.com/data/icons/unicons-line-vol-4/24/heart-alt-512.png'
+        }
         onClick={() => {
-          //ToDo
+          handleLike({
+            hotel: {
+              id,
+              name,
+              mainImageUrl,
+            },
+          })
         }}
       />
       <Button

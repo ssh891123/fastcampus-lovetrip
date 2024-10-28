@@ -13,7 +13,19 @@ import addDelimeter from '@utils/addDelimeter'
 import formatTime from '@utils/formatTime'
 
 // interface임을 명시하기 위해 I라는 prefix붙임
-function HotelItem({ hotel }: { hotel: Hotel }) {
+function HotelItem({
+  hotel,
+  isLike,
+  onLike,
+}: {
+  hotel: Hotel
+  isLike: boolean
+  onLike: ({
+    hotel,
+  }: {
+    hotel: Pick<Hotel, 'id' | 'name' | 'mainImageUrl'>
+  }) => void
+}) {
   const [remainedTime, setRemainedTime] = useState(0)
 
   useEffect(() => {
@@ -67,6 +79,18 @@ function HotelItem({ hotel }: { hotel: Hotel }) {
     )
   }
 
+  const handleLike = (e: React.MouseEvent<HTMLImageElement>) => {
+    //heart(찜하기) 버튼 클릭했을 때, 기본 이벤트 동작 방지
+    e.preventDefault()
+    onLike({
+      hotel: {
+        id: hotel.id,
+        name: hotel.name,
+        mainImageUrl: hotel.mainImageUrl,
+      },
+    })
+  }
+
   return (
     <Link to={`/hotel/${hotel.id}`}>
       <div>
@@ -85,7 +109,21 @@ function HotelItem({ hotel }: { hotel: Hotel }) {
             </Flex>
           }
           right={
-            <Flex direction="column" align="flex-end">
+            <Flex
+              direction="column"
+              align="flex-end"
+              style={{ position: 'relative' }}
+            >
+              <img
+                src={
+                  isLike
+                    ? 'https://cdn4.iconfinder.com/data/icons/twitter-29/512/166_Heart_Love_Like_Twitter-512.png'
+                    : 'https://cdn1.iconfinder.com/data/icons/unicons-line-vol-4/24/heart-alt-512.png'
+                }
+                alt=""
+                css={iconHeartStyles}
+                onClick={handleLike}
+              />
               <img src={hotel.mainImageUrl} alt="" css={imageStyle} />
               <Spacing size={8} />
               <Text bold={true}>{addDelimeter(hotel.price)}원</Text>
@@ -108,6 +146,14 @@ const imageStyle = css`
   border-radius: 8px;
   object-fit: cover;
   margin-left: 16px;
+`
+
+const iconHeartStyles = css`
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 30px;
+  height: 30px;
 `
 
 export default HotelItem

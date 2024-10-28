@@ -7,8 +7,11 @@ import HotelItem from '@components/hotelList/HotelItem'
 import Spacing from '@shared/Spacing'
 import Top from '@shared/Top'
 
+import useLike from '@hooks/like/useLike'
+
 function HotelList() {
   const { data: hotels, hasNextPage, loadMore } = useHotels()
+  const { data: likes, mutate: like } = useLike()
 
   return (
     <div>
@@ -23,7 +26,14 @@ function HotelList() {
         <ul>
           {hotels?.map((hotel, idx) => (
             <Fragment key={hotel.id}>
-              <HotelItem hotel={hotel} />
+              <HotelItem
+                hotel={hotel}
+                //find는 객체를 반환하므로 boolean타입을 전달하기 위함
+                isLike={Boolean(
+                  likes?.find((like) => hotel.id === like.hotelId),
+                )}
+                onLike={like}
+              />
               {idx === hotels.length - 1 ? null : (
                 <Spacing
                   size={8}
