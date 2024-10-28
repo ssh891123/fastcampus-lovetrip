@@ -44,7 +44,7 @@ function useGoogleSignin() {
           return
         }
       }
-
+      console.log(error)
       throw new Error('fail to signin')
     }
   }, [navigate])
