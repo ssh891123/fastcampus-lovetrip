@@ -8,6 +8,7 @@ import Rooms from '@components/hotel/Rooms'
 import Map from '@components/Map'
 import RecommandHotels from '@components/RecommendHotels'
 import ActionButtons from '@components/hotel/ActionButtons'
+import FixedBottomButton from '@/components/shared/FixedBottomButton'
 
 function HotelPage() {
   const { id } = useParams() as { id: string }

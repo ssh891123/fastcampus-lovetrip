@@ -4,7 +4,7 @@ import { css } from '@emotion/react'
 
 import Flex from '@shared/Flex'
 import Button from '@shared/Button'
-// import MyImage from '@shared/MyImage'
+import Spacing from '@shared/Spacing'
 import { colors } from '@styles/colorPalette'
 import useUser from '@hooks/auth/useUser'
 
@@ -19,18 +19,30 @@ function Navbar() {
     if (user != null) {
       //TODO 클릭시 user 정보 페이지로 이동 기능 추가
       return (
-        <Link to="/my">
-          <img
-            src={
-              // user.photoUrl ??
-              'https://cdn1.iconfinder.com/data/icons/cute-emoji-smiles-with-gradient/83/Emoji_Emoticon_Happy_Laugh_Smile-512.png'
-            }
-            alt="유저의 이미지"
-            width={40}
-            height={40}
-            style={{ borderRadius: '100%' }}
-          />
-        </Link>
+        <Flex align="center">
+          <Link to="/my">
+            <img
+              src={
+                // user.photoUrl ??
+                'https://cdn1.iconfinder.com/data/icons/cute-emoji-smiles-with-gradient/83/Emoji_Emoticon_Happy_Laugh_Smile-512.png'
+              }
+              alt="유저의 이미지"
+              width={40}
+              height={40}
+              style={{ borderRadius: '100%' }}
+            />
+          </Link>
+          <Spacing size={4} direction="horizontal" />
+          <Link to="/settings">
+            <img
+              src="https://cdn1.iconfinder.com/data/icons/unicons-line-vol-5/24/setting-512.png"
+              alt=""
+              width={40}
+              height={40}
+              style={{ borderRadius: '100%' }}
+            />
+          </Link>
+        </Flex>
       )
     }
 
