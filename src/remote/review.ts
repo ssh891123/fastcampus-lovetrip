@@ -5,6 +5,9 @@ import {
   getDocs,
   query,
   orderBy,
+  setDoc,
+  deleteDoc,
+  where,
 } from 'firebase/firestore'
 
 import { store } from '@remote/firebase'
@@ -60,4 +63,24 @@ export async function getReviews({ hotelId }: { hotelId: string }) {
   }
 
   return results
+}
+
+export async function writeReview(review: Omit<Review, 'id'>) {
+  const hotelRef = doc(store, COLLECTIONS.HOTEL, review.hotelId)
+  const reviewRef = doc(collection(hotelRef, COLLECTIONS.REVIEW))
+
+  await setDoc(reviewRef, review)
+}
+
+export function removeReview({
+  reviewId,
+  hotelId,
+}: {
+  reviewId: string
+  hotelId: string
+}) {
+  const hotelRef = doc(store, COLLECTIONS.HOTEL, hotelId)
+  const reviewRef = doc(collection(hotelRef, COLLECTIONS.REVIEW), reviewId)
+
+  return deleteDoc(reviewRef)
 }
