@@ -1,3 +1,5 @@
+import qs from 'qs'
+import { useNavigate } from 'react-router-dom'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
@@ -11,8 +13,14 @@ import Button from '@shared/Button'
 import useRooms from './hook/useRooms'
 import addDelimeter from '@utils/addDelimeter'
 
+import useUser from '@hooks/auth/useUser'
+import { useAlertContext } from '@contexts/AlertContext'
+
 function Rooms({ hotelId }: { hotelId: string }) {
   const { data } = useRooms(hotelId)
+  const user = useUser()
+  const { open } = useAlertContext()
+  const navigate = useNavigate()
 
   return (
     <Container>
@@ -28,6 +36,14 @@ function Rooms({ hotelId }: { hotelId: string }) {
         {data?.map((room) => {
           const 마감임박인가 = room.avaliableCount === 1
           const 매진인가 = room.avaliableCount === 0
+
+          const params = qs.stringify(
+            {
+              roomId: room.id,
+              hotelId,
+            },
+            { addQueryPrefix: true },
+          )
 
           return (
             <ListRow
@@ -58,7 +74,25 @@ function Rooms({ hotelId }: { hotelId: string }) {
                 />
               }
               right={
-                <Button size="medium" disabled={매진인가}>
+                <Button
+                  size="medium"
+                  disabled={매진인가}
+                  onClick={() => {
+                    if (user == null) {
+                      //로그인 전
+                      open({
+                        title: '로그인이 필요한 기능 입니다.',
+                        onButtonClick: () => {
+                          navigate('/lsignin')
+                        },
+                      })
+
+                      return
+                    }
+
+                    navigate(`/schedule${params}`)
+                  }}
+                >
                   {매진인가 === true ? '매진' : '선택'}
                 </Button>
               }
