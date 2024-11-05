@@ -20,7 +20,7 @@ function RangePicker({ startDate, endDate, onChange }: RangePickerProps) {
     }
 
     const { from, to } = dateRange
-    console.log(dateRange)
+
     // 1. 중복된 날짜
     if (from && to && isSameDay(from, to)) {
       return

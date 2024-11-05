@@ -13,6 +13,7 @@ import {
 import { store } from './firebase'
 import { COLLECTIONS } from '@constants'
 import { Hotel } from '@models/hotel'
+import { Room } from '@models/room'
 
 // pageParam: 지금 보이는 맨 마지막 요소
 export async function getHotels(pageParams?: QuerySnapshot<unknown>) {
@@ -68,4 +69,22 @@ export async function getRecommendHotels(hotelIds: string[]) {
         ...doc.data(),
       }) as Hotel,
   )
+}
+
+export async function getHotelWithRoom({
+  hotelId,
+  roomId,
+}: {
+  hotelId: string
+  roomId: string
+}) {
+  const hotelSnapshot = await getDoc(doc(store, COLLECTIONS.HOTEL, hotelId))
+  const roomSnapshot = await getDoc(
+    doc(hotelSnapshot.ref, COLLECTIONS.ROOM, roomId),
+  )
+
+  return {
+    hotel: hotelSnapshot.data() as Hotel,
+    room: roomSnapshot.data() as Room,
+  }
 }
