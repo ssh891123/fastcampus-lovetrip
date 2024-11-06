@@ -13,12 +13,14 @@ interface Option {
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string
   options: Option[]
-  placeholder: string
+  placeholder?: string
+  hasError?: boolean
 }
 
 const BaseSelect = styled.select`
   height: 52px;
-  background-color: ${colors.gray};
+  border: 1px solid ${colors.gray};
+  border-radius: 6px;
   border: none;
   border-radius: 16px;
   padding: 0 16px;
@@ -33,15 +35,16 @@ const BaseSelect = styled.select`
  * https://github.com/chakra-ui/chakra-ui/issues/8164
  */
 const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
-  { label, options, placeholder, value, ...props },
+  { label, options, placeholder, hasError, value, ...props },
   ref,
 ) {
+  const labelColor = hasError ? 'red' : 'black'
   return (
     <Flex direction="column">
       {label ? (
         <Text
           typography="t7"
-          color="black"
+          color={labelColor}
           display="inline-block"
           style={{ marginBottom: 6 }}
         >
