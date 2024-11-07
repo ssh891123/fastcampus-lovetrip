@@ -7,7 +7,11 @@ import FixedBottomButton from '@shared/FixedBottomButton'
 import Text from '@shared/Text'
 import TextField from '@shared/TextField'
 import Select from '@shared/Selected'
-import Spacing from '../shared/Spacing'
+import Spacing from '@shared/Spacing'
+
+type FormData = {
+  [key: string]: string
+}
 
 function Form({
   forms,
@@ -15,11 +19,13 @@ function Form({
   buttonLabel,
 }: {
   forms: Hotel['forms']
-  onSubmit: () => void
+  onSubmit: (formData: FormData) => void
   buttonLabel: string
 }) {
   //blur 이벤트가 발생했을 때, 유효성 검사
-  const { register, formState, handleSubmit } = useForm({ mode: 'onBlur' })
+  const { register, formState, handleSubmit } = useForm<FormData>({
+    mode: 'onBlur',
+  })
 
   // console.log('forms', forms)
   // console.log('formState', formState.errors)
