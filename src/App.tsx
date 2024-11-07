@@ -9,6 +9,8 @@ import AuthGuard from '@components/auth/AuthGuard'
 import Navbar from '@shared/Navbar'
 import SettingsPage from '@pages/settings'
 import LikePage from '@pages/settings/like'
+import ReservationPage from '@pages/Reservation'
+import SchedulePage from '@pages/Schedule'
 
 import PrivateRouter from '@components/auth/PrivateRouter'
 import useLoadKakao from '@hooks/useLoadKakao'
@@ -45,6 +47,22 @@ function App() {
             element={
               <PrivateRouter>
                 <LikePage />
+              </PrivateRouter>
+            }
+          />
+          <Route
+            path="/schedule"
+            element={
+              <PrivateRouter>
+                <SchedulePage />
+              </PrivateRouter>
+            }
+          />
+          <Route
+            path="/reservation"
+            element={
+              <PrivateRouter>
+                <ReservationPage />
               </PrivateRouter>
             }
           />

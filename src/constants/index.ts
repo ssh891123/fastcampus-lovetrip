@@ -4,4 +4,6 @@ export const COLLECTIONS = {
   USER: 'USER',
   LIKE: 'LIKE',
   REVIEW: 'REVIEW',
+  FORM: 'FORM',
+  RESERVATION: 'RESERVATION',
 }
