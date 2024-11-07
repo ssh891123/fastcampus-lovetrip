@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { Fragment, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Hotel, ReservactionForm } from '@models/hotel'
@@ -21,8 +21,8 @@ function Form({
   //blur 이벤트가 발생했을 때, 유효성 검사
   const { register, formState, handleSubmit } = useForm({ mode: 'onBlur' })
 
-  console.log('forms', forms)
-  console.log('formState', formState.errors)
+  // console.log('forms', forms)
+  // console.log('formState', formState.errors)
 
   const components = useCallback(
     (form: ReservactionForm) => {
@@ -62,9 +62,17 @@ function Form({
   return (
     <div style={{ padding: '0 24px' }}>
       <Text bold={true}>예약 정보</Text>
+
+      <Spacing size={16} />
+
       <form>
         {forms.map((form) => {
-          return <>{components(form)}</>
+          return (
+            <Fragment key={form.id}>
+              {components(form)}
+              <Spacing size={8} />
+            </Fragment>
+          )
         })}
       </form>
 
