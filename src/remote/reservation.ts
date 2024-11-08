@@ -1,5 +1,15 @@
-import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from 'firebase/firestore'
 import { store } from '@remote/firebase'
+import { getHotel } from '@remote/hotel'
 
 import { Reservation } from '@models/reservation'
 import { Room } from '@models/room'
@@ -25,4 +35,30 @@ export async function makeReservation(newReservation: Reservation) {
     }),
     setDoc(doc(collection(store, COLLECTIONS.RESERVATION)), newReservation),
   ])
+}
+
+export async function getReservations({ userId }: { userId: string }) {
+  const reservationQuery = query(
+    collection(store, COLLECTIONS.RESERVATION),
+    where('userId', '==', userId),
+  )
+  const snapshot = await getDocs(reservationQuery)
+
+  const result = []
+
+  for (let reservationDoc of snapshot.docs) {
+    const reservation = {
+      id: reservationDoc.id,
+      ...(reservationDoc.data() as Reservation),
+    }
+
+    const hotel = await getHotel(reservation.hotelId)
+
+    result.push({
+      reservation,
+      hotel,
+    })
+  }
+
+  return result
 }
