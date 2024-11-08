@@ -2,7 +2,7 @@ import { useMutation, useQuery } from 'react-query'
 import { getHotelWithRoom } from '@remote/hotel'
 
 import { useAlertContext } from '@contexts/AlertContext'
-import { makeReservation } from '@remote/reservation'
+import { getReservations, makeReservation } from '@remote/reservation'
 import { Reservation } from '@models/reservation'
 
 function useReservation({

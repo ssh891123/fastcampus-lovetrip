@@ -58,7 +58,7 @@ function ReservationPage() {
     await makeReservation(newReservation)
 
     //TODO: 예약완료 페이지로 이동
-    navigate(`/reservation/dom?hotelName=${hotel.name}`)
+    navigate(`/reservation/done?hotelName=${hotel.name}`)
   }
 
   const buttonLabel = `${nights}박 ${addDelimeter(room.price * Number(nights))}원 예약하기`
