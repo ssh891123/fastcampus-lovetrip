@@ -83,7 +83,8 @@ function LikePage() {
                     </Draggable>
                   )
                 }}
-                data={mockData}
+                // data={mockData}
+                data={data}
               />
             </ul>
           )}
