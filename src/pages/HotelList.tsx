@@ -6,6 +6,7 @@ import useHotels from '@components/hotelList/hooks/useHotels'
 import HotelItem from '@components/hotelList/HotelItem'
 import Spacing from '@shared/Spacing'
 import Top from '@shared/Top'
+import withSuspense from '@shared/hocs/withSuspense'
 
 import useLike from '@hooks/like/useLike'
 
@@ -49,4 +50,6 @@ function HotelList() {
   )
 }
 
-export default HotelList
+export default withSuspense(HotelList, {
+  fallback: <div>호텔목록을 가져오고 있습니다..</div>,
+})
