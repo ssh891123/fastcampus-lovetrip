@@ -9,6 +9,7 @@ import ListRow from '@shared/ListRow'
 import Tag from '@shared/Tag'
 import Spacing from '@shared/Spacing'
 import Button from '@shared/Button'
+import withSuspense from '@shared/hocs/withSuspense'
 
 import useRooms from './hook/useRooms'
 import addDelimeter from '@utils/addDelimeter'
@@ -120,4 +121,6 @@ const imageStyle = css`
   border-radius: 4px;
 `
 
-export default Rooms
+export default withSuspense(Rooms, {
+  fallback: <div>룸 정보를 가져오는 중...</div>,
+})

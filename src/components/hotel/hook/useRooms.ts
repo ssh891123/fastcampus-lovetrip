@@ -34,7 +34,9 @@ function useRooms(hotelId: string) {
   }, [hotelId, client])
 
   //배열 안에는 캐싱 key값
-  return useQuery(['rooms', hotelId], () => getRooms(hotelId))
+  return useQuery(['rooms', hotelId], () => getRooms(hotelId), {
+    suspense: true,
+  })
 }
 
 export default useRooms
