@@ -1,0 +1,34 @@
+# workflow이름
+name: CI 
+
+# 언제 발동한건지: pull request가 생성되었을때
+on: [pull_request] 
+
+# workflow는 job으로 구성되어 있고, lint, build job을 진행할 예정
+# run을 통해 명령어 실행
+jobs: 
+  lint: 
+    name: lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - run: yarn install
+      - run: yarn lint
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - run: yarn install
+      # ci에서 true일때 빌드중에 발생한 경고를 가끔씩 오류로 취급해서 실패하는 경우가 있음
+      # versel에서 발생하는 경우가 있어서 CI를 false로 판단해서 경고를 오류로 판단하지 않도록 함
+      - run: CI='false' yarn build
+
